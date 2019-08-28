@@ -21,6 +21,18 @@ public class Move : MonoBehaviour
     {
         float horizontalForce = Input.GetAxis("Horizontal");
 
+        if (Mathf.Abs(rb2d.velocity.x) > 5)
+        {
+            Debug.Log("Du kører for hurtigt!");
+            return;
+        }
+
+
+        rb2d.AddForce(Vector2.right * horizontalForce * 15f);
+
+        
+
+
         /* 1: Lav en if statement der tjekker om 
          *      horizontalForce er forskellig fra nul.
          *      tip: != betyder 'ikke ens' så 0 != 1 er sandt, fordi 0 er ikke 1.
