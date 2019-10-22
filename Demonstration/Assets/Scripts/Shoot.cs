@@ -2,9 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Shoot : MonoBehaviour
 {
+
+    public UnityEvent shootEvent;
+
     //Den bullet vi instanciere 
     [SerializeField]
     GameObject bullet;
@@ -24,6 +28,10 @@ public class Shoot : MonoBehaviour
     //Gør at man ikke kan skyde igen.
     bool _currentlyCoolingDown = false;
 
+    void Awake () {
+        shootEvent = new UnityEvent();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -40,13 +48,14 @@ public class Shoot : MonoBehaviour
         {
             yield return new WaitForSeconds(cooldown);
 
-            CreateBulletTowardsTarget(GameObject.FindGameObjectWithTag("Player").transform.position);
-
+            var instanciatedBullet = CreateBulletTowardsTarget(GameObject.FindGameObjectWithTag("Player").transform.position);
+            instanciatedBullet.GetComponent<Rigidbody2D>().AddForce((GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized  * 5f, ForceMode2D.Impulse);
         }
     }
 
     private GameObject CreateBulletTowardsTarget(Vector3 position)
     {
+        shootEvent.Invoke();
         return Instantiate(bullet, transform.position + (position - transform.position).normalized  , Quaternion.identity, null);
     }
 
@@ -56,12 +65,11 @@ public class Shoot : MonoBehaviour
         //Denne er efterladt tom, 
         if(playerMode && Input.GetKeyDown(shootKey) && !_currentlyCoolingDown)
         {
-            Debug.Log("Vi skyder!");
+            
             GameObject instanciatedBullet = CreateBulletTowardsTarget(GetMousePos());
             //Force her:
             instanciatedBullet.GetComponent<Rigidbody2D>().AddForce((GetMousePos() - transform.position).normalized  * 5f, ForceMode2D.Impulse);
         }
-
     }
 
     private static Vector3 GetMousePos(bool normalized = false)

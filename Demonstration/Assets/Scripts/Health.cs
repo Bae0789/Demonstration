@@ -70,6 +70,12 @@ public class Health : MonoBehaviour
         
     }
     
+
+    public int GetHealth()
+    {
+        return health;
+    }
+
     IEnumerator ImmunityTimer(float seconds)
     {
         _currentlyImmune = true;

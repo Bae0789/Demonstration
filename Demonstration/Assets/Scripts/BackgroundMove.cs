@@ -24,7 +24,7 @@ public class BackgroundMove : MonoBehaviour {
 		//_MainTex er en reference til texturen på materialet, for some reason.
         if(ScrollWithPlayer)
         {
-            img.material.SetTextureOffset("_MainTex", new Vector2(player.position.x / Dampening, player.position.y / Dampening));
+            img.material.SetTextureOffset("_MainTex", new Vector2(player.position.x / Dampening, 0f));
         }
         else
         {
