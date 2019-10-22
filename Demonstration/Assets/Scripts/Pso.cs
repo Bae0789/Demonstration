@@ -31,22 +31,28 @@ public class Pso : MonoBehaviour
         switch (sEnum)
         {
             case SoundEnums.Jump:
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Jump>().jumpEvent.AddListener(Play);
+                GetPlayer().GetComponent<Jump>().jumpEvent.AddListener(Play);
                 break;
             case SoundEnums.Shoot:
+                GetPlayer().GetComponent<Shoot>().shootEvent.AddListener(Play);
                 break;
             case SoundEnums.Hit:
+                GetPlayer().GetComponent<Health>().damageEvent.AddListener(Play);
                 break;
             case SoundEnums.Move:
+                GetPlayer().GetComponent<Move>().moveEvent.AddListener(Play);
                 break;
             case SoundEnums.Land:
+                GetPlayer().GetComponentInChildren<GroundCheck>().landEvent.AddListener(Play);
                 break;
             case SoundEnums.EnemyShoot:
                 GetComponentInParent<Shoot>().shootEvent.AddListener(Play);
                 break;
             case SoundEnums.EnemyHit:
+                GetComponentInParent<Health>().damageEvent.AddListener(Play);
                 break;
             case SoundEnums.EnemyMove:
+                //GetComponentInParent<Shoot>().shootEvent.AddListener(Play);
                 break;
             default:
                 break;
@@ -54,6 +60,10 @@ public class Pso : MonoBehaviour
 
     }
 
+    private static GameObject GetPlayer()
+    {
+        return GameObject.FindGameObjectWithTag("Player");
+    }
 
     void Play() {
         Debug.Log("Invoked");

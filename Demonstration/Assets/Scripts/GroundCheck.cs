@@ -1,12 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GroundCheck : MonoBehaviour
 {
 
+    public UnityEvent landEvent;
+
     public bool Grounded = false;
     private Animator anim;
+
+    private void Awake()
+    {
+        landEvent = new UnityEvent();
+    }
 
     private void Start()
     {
@@ -22,7 +30,7 @@ public class GroundCheck : MonoBehaviour
         if(col.CompareTag("Ground") && Grounded != true)
         {
             Grounded = true;
-
+            landEvent.Invoke();
             anim.SetBool("isGrounded", Grounded);
         }
     }

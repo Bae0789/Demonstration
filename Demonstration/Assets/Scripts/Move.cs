@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Move : MonoBehaviour
 {
     Animator anim;
 
+    public UnityEvent moveEvent;
 
     [SerializeField]
     [Range(0.5f, 10f)]
@@ -16,7 +18,12 @@ public class Move : MonoBehaviour
     
 
     SpriteRenderer sr;
-    
+
+    private void Awake()
+    {
+        moveEvent = new UnityEvent();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +52,8 @@ public class Move : MonoBehaviour
         if(rb2d.velocity.x != 0f)
         {
             sr.flipX = rb2d.velocity.x < 0f;
+            moveEvent.Invoke();
+
         }
         
         
