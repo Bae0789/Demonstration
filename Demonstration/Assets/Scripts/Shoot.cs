@@ -38,7 +38,12 @@ public class Shoot : MonoBehaviour
     {
         if(!playerMode)
         {
+            shootEvent.AddListener(EnemyShoot);
             StartCoroutine(EnemyShootTimer(cooldown));
+        }
+        else
+        {
+            shootEvent.AddListener(PlayerShoot);
         }
     }
 
@@ -47,15 +52,21 @@ public class Shoot : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(cooldown);
-
-            var instanciatedBullet = CreateBulletTowardsTarget(GameObject.FindGameObjectWithTag("Player").transform.position);
-            instanciatedBullet.GetComponent<Rigidbody2D>().AddForce((GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized  * 5f, ForceMode2D.Impulse);
+            shootEvent.Invoke();
         }
+    }
+
+   
+
+    private IEnumerator PlayerShootTimer(float cooldown)
+    {
+        _currentlyCoolingDown = true;
+        yield return new WaitForSeconds(cooldown);
+        _currentlyCoolingDown = false;
     }
 
     private GameObject CreateBulletTowardsTarget(Vector3 position)
     {
-        shootEvent.Invoke();
         return Instantiate(bullet, transform.position + (position - transform.position).normalized  , Quaternion.identity, null);
     }
 
@@ -65,11 +76,20 @@ public class Shoot : MonoBehaviour
         //Denne er efterladt tom, 
         if(playerMode && Input.GetKeyDown(shootKey) && !_currentlyCoolingDown)
         {
-            
-            GameObject instanciatedBullet = CreateBulletTowardsTarget(GetMousePos());
-            //Force her:
-            instanciatedBullet.GetComponent<Rigidbody2D>().AddForce((GetMousePos() - transform.position).normalized  * 5f, ForceMode2D.Impulse);
+            shootEvent.Invoke();
+        
         }
+    }
+ private void EnemyShoot()
+    {
+        var instanciatedBullet = CreateBulletTowardsTarget(GameObject.FindGameObjectWithTag("Player").transform.position);
+        instanciatedBullet.GetComponent<Rigidbody2D>().AddForce((GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * 5f, ForceMode2D.Impulse);
+    }
+    private void PlayerShoot()
+    {
+        StartCoroutine(PlayerShootTimer(cooldown));
+        GameObject instanciatedBullet = CreateBulletTowardsTarget(GetMousePos());
+        instanciatedBullet.GetComponent<Rigidbody2D>().AddForce((GetMousePos() - transform.position).normalized * 5f, ForceMode2D.Impulse);
     }
 
     private static Vector3 GetMousePos(bool normalized = false)

@@ -37,7 +37,7 @@ public class Pso : MonoBehaviour
                 GetPlayer().GetComponent<Shoot>().shootEvent.AddListener(Play);
                 break;
             case SoundEnums.Hit:
-                GetPlayer().GetComponent<Health>().damageEvent.AddListener(Play);
+                GetPlayer().GetComponent<Health>().damageEvent.AddListener(PlayF);
                 break;
             case SoundEnums.Move:
                 GetPlayer().GetComponent<Move>().moveEvent.AddListener(Play);
@@ -49,7 +49,7 @@ public class Pso : MonoBehaviour
                 GetComponentInParent<Shoot>().shootEvent.AddListener(Play);
                 break;
             case SoundEnums.EnemyHit:
-                GetComponentInParent<Health>().damageEvent.AddListener(Play);
+                GetComponentInParent<Health>().damageEvent.AddListener(PlayF);
                 break;
             case SoundEnums.EnemyMove:
                 //GetComponentInParent<Shoot>().shootEvent.AddListener(Play);
@@ -65,8 +65,8 @@ public class Pso : MonoBehaviour
         return GameObject.FindGameObjectWithTag("Player");
     }
 
-    void Play() {
-        Debug.Log("Invoked");
+    void Play()
+    {
         if(!audioSource.isPlaying)
         {
             audioSource.Play();
