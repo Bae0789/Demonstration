@@ -37,7 +37,12 @@ public class DealDamageToTag : MonoBehaviour
     /// <param name="damageableCollider">Collider parameter</param>
     private void DealDamage(Collider2D damageableCollider)
     {
-        damageableCollider.GetComponent<Health>().damageEvent.Invoke(damageAmount);
+        Health health = damageableCollider.GetComponent<Health>();
+        if (!health.EnableImmunity || (health.EnableImmunity && !health._currentlyImmune))
+        {
+            damageableCollider.GetComponent<Health>().damageEvent.Invoke(damageAmount);
+        }
+
     }
 
 

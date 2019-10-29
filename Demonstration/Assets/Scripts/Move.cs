@@ -52,7 +52,11 @@ public class Move : MonoBehaviour
         if(rb2d.velocity.x != 0f)
         {
             sr.flipX = rb2d.velocity.x < 0f;
-            moveEvent.Invoke();
+            if (GetComponentInChildren<GroundCheck>().Grounded)
+            {
+                moveEvent.Invoke();
+            }
+           
 
         }
         

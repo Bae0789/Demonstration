@@ -34,7 +34,7 @@ public class Pso : MonoBehaviour
                 GetPlayer().GetComponent<Jump>().jumpEvent.AddListener(Play);
                 break;
             case SoundEnums.Shoot:
-                GetPlayer().GetComponent<Shoot>().shootEvent.AddListener(Play);
+                GetPlayer().GetComponent<Shoot>().shootEvent.AddListener(PlayI);
                 break;
             case SoundEnums.Hit:
                 GetPlayer().GetComponent<Health>().damageEvent.AddListener(PlayF);
@@ -77,6 +77,12 @@ public class Pso : MonoBehaviour
     void PlayF(float _)
     {
         Play();
+    }
+
+    void PlayI()
+    {
+        audioSource.Stop();
+        audioSource.Play();
     }
 
 

@@ -21,12 +21,12 @@ public class Health : MonoBehaviour
 
     //Formålet med denne variabel er..
     [SerializeField]
-    private bool EnableImmunity = false;
+    public bool EnableImmunity = false;
 
     [SerializeField]
     private float immunityTime = 1.0f;
 
-    private bool _currentlyImmune = false;
+    public bool _currentlyImmune = false;
 
     private SpriteRenderer sr;
 
@@ -51,9 +51,10 @@ public class Health : MonoBehaviour
     /// <param name="damageRecieved">Hvad gør denne parameter?</param>
     private void TakeDamage(float damageRecieved)
     {
-        if(!EnableImmunity || (EnableImmunity && !_currentlyImmune))
-        {
+        
+        
             health -= (int)damageRecieved;
+            Debug.Log(health);
             if (health <= 0)
             {
                 deathEvent.Invoke();
@@ -66,7 +67,7 @@ public class Health : MonoBehaviour
                 StartCoroutine(ImmunityTimer(immunityTime));
             }
 
-        }
+        
         
     }
     
