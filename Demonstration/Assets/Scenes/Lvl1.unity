@@ -1681,6 +1681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3412a58285814404e8da34e3e046d7d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loseScene: 3
 --- !u!114 &1483984797
 MonoBehaviour:
   m_ObjectHideFlags: 0

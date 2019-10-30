@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerDie : MonoBehaviour
 {
+
+    public int loseScene=0;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +16,7 @@ public class PlayerDie : MonoBehaviour
 
     private void Reload()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(loseScene);
     }
     
 }
